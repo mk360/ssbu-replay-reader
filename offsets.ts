@@ -1,3 +1,5 @@
+import * as fs from 'fs';
+const data = fs.readFileSync("byleth 1 mac 1.bin", 'ascii');
 const space = 0x2;
 const player1Name = 0x8CE;
 let playerNameOffsets: number[] = [];
@@ -12,11 +14,13 @@ function readCharacterName(content: string, address: number) {
     let name = '';
     let pointer = address;
 
-    while (+content[pointer] !== 0x0) {
+    while (content[pointer] !== "\x00") {
         name += content[pointer];
         pointer += space;
     }
 
     return name;
 };
+
+console.log(readCharacterName(data, player1Name));
 
